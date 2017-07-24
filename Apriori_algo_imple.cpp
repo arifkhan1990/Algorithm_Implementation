@@ -1,13 +1,39 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+int br[10][10],m_ar[10];
+int ar[10];
+vector<int>result;
+map<string,int>L_c;
+string st;
+int transaction,maximum_purchase_item,minimum_support;
+void output(int m);
+void C_cal_And_L_cal(int pt)
+{
+  for(int h1 = 0; h1 < result.size() ; h1++){
+        st.clear();
+    for(int h2 = h1+1; h2 < result.size() and h1+2 == pt;h2++){
+      for(int h3 = 0; h3 <= h1 ; h3++ ){
+            st += result[h3]+ '0';
+            cout << result[h3] << " ";
+                 }
+                 cout << result[h2] << endl;
+                 st += result[h2]+ '0';
+                 int po = L_c.find(st)->second;
+                 L_c[st]++;
+                 //L_c.insert(pair<string,int>(st,po++));
+
+                 st.clear();
+            }
+
+        }
+}
+
 int main()
 {
-    //ios_base::sync_with_stdio(false);cin.tie(NULL);
+    ios_base::sync_with_stdio(false);cin.tie(NULL);
     freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
-
-    int transaction,maximum_purchase_item,minimum_support;
+    //freopen("output.txt","w",stdout);
 
    // cout << "Enter Transaction Number : " ;
     cin >> transaction ;
@@ -19,63 +45,105 @@ int main()
     //cout << endl;
     cout << "Transaction Number : " << transaction << endl << "Maximum Purchase Item : " << maximum_purchase_item << endl << "Minimum Support : " << minimum_support << endl << endl;
 
-    string purchase_data[10][15],value;
-    map<string,int>sort_value;
-    set<string>sort_v;
-    for(int i = 0 ; i < transaction ; i++){
-        //cout << "Enter Transaction Id :" ;
-        cin >> purchase_data[i][0];
-        //cout << endl;
-        //cout << "Enter Purchase Item :" ;
-            for(int k = 1; k <= maximum_purchase_item  ; k++){
-                cin >> value;
-                if(value == "*") break;
-                //cout << purchase_data[i][k] << endl;
-                sort_value[value]++;
-                sort_v.insert(value);
-            }
-            set<string>::iterator it1 = sort_v.begin();
-            //it1++;
-            for(int j = 1; j <= sort_v.size() ; j++,it1++)
-                  purchase_data[i][j] = *it1;
+    set<int>cr;
+    map<int,int>sort_value;
+    map<int,int>::iterator it;
 
-            sort_v.clear();
-            //cout << endl;
+       for(int i = 0 ; i < transaction ; i++){
+            int value;
+            for(int k = 0 ; k < maximum_purchase_item  ; k++){
+                cin >> value;
+
+                if(value == 0) {
+                        break;
+                }
+                sort_value[value]++;
+                br[i][k] = value;
+                cr.insert(value);
+            }
     }
 
     cout << "Purchase Data : " << endl;
-        for(int i = 0 ; i < transaction ; i++){
-          cout << purchase_data[i][0] << " : ";
-            for(int k = 1; k <= maximum_purchase_item ; k++){
-                cout << " " << purchase_data[i][k];
-
+    for(int i = 0 ; i < transaction ; i++){
+            cout << i+1 << " : ";
+            for(int k = 0 ; k < maximum_purchase_item and br[i][k] != 0  ; k++){
+                cout << " " << br[i][k];
             }
             cout << endl;
     }
 
-    int c_count = 0,l_count = 0;
-    bool first_time = true;
-   // while(true){
-            c_count++,l_count++;
-            if(first_time){
-      cout <<endl << "Generating C" << c_count << " from data : " << endl;
-      map<string,int>::iterator it = sort_value.begin();
-      //it++;
-      map<string, int>L_result;
+    int c_count = 1,l_count = 1,combination_num = 1;
 
-      for(; it != sort_value.end(); it++){
-        cout << it->first << " :  " << it->second << endl;
-        if(it->second >= minimum_support)
-           L_result[it->first] = it->second;
-      }
+    cout <<endl << "Generating C" << c_count << " from data : " << endl;
+    for(it = sort_value.begin();it != sort_value.end();it++)
+         cout << it->first << " :  " << it->second << endl;
 
-      cout <<endl << "Generating L" << l_count << " from C" << c_count << " : " << endl;
-      for(map<string, int>::iterator it2 = L_result.begin(); it2 != L_result.end() ; it2++)
-         cout << it2->first << " :  " << it2->second << endl;
-        first_time != first_time;
+    cout <<endl << "Generating L" << l_count << " from C" << c_count << " : " << endl;
+        for(it= sort_value.begin();it != sort_value.end();it++)
+             {
+                 if(it->second >= minimum_support)
+                          cout << it->first << " :  " << it->second << endl;
+
+             }
+
+    int i = 0;
+    for(set<int>::iterator it = cr.begin(); it != cr.end(); it++,i++)
+          m_ar[i] = *it;
+
+    bool bt = false;
+    for(int i1 = 2 ; i1 <= transaction - 1; i1++){
+           int p;
+       if(bt){
+        cout << "C" << i1-1 << " after scaning itemset : " << endl;
+        for(map<string,int>::iterator ito = L_c.begin(); ito != L_c.end(); ito++){
+                cout << ito->first << " " << ito->second << endl;
+            string ph = ito->first;
+            //cout << ph << endl;
+            for(int ip = 0; ip < ph.size(); ip++)
+                 cout << ph[ip] <<" ";
+           cout << " :  " << ito->second << endl;
+        }
+
+        cout << "Generating C" << i1 << " after prune :" << endl;
+        L_c.clear();
        }else{
-
+           cout << "Generating C" << i1 << " after prune :" << endl;
+           bt = true;
        }
-    //}
+        for(int i = 0 ; i < transaction ; i++){
+
+                p=0 ;
+                memset(ar,0,sizeof(ar));
+            for(int k = 0; k < maximum_purchase_item and br[i][k] != 0  ; k++){
+                    ar[k] = br[i][k];
+                    p++;
+            }
+            sort(ar,ar+p);
+            int p1,check_v ;
+                    p1 = 0;
+                    result.clear();
+                for(int l = 0; l < transaction and ar[l] != 0; l++){
+                        p1++;
+                        result.push_back(ar[l]);
+                }
+           int g = p1,g1 = 0;
+
+                if(p1 >= i1){
+
+                            for(int h = 0; h < transaction - i1; h++,c_count++){
+
+                                if(h == 0)
+                                    C_cal_And_L_cal(i1);
+                                else
+                                {
+                                    result.erase(result.begin()+0);
+                                    C_cal_And_L_cal(i1);
+                                }
+                            }
+
+                        }
+                    }
+                }
+
     return 0;
 }
