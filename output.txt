@@ -3,20 +3,66 @@ Maximum Purchase Item : 4
 Minimum Support : 2
 
 Purchase Data : 
-T1 :  1   
-T2 :  1 2  
-T3 :  2 3 5 
-T4 :  1 2  
-T5 :  1 2 3 4
+1 :  1
+2 :  2 1 3
+3 :  2 4
+4 :  1 2 3 4
+5 :  2 5 3
 
 Generating C1 from data : 
-1 :  4
+1 :  3
 2 :  4
-3 :  2
-4 :  1
+3 :  3
+4 :  2
 5 :  1
 
 Generating L1 from C1 : 
-1 :  4
+1 :  3
 2 :  4
-3 :  2
+3 :  3
+4 :  2
+Generating C2 after prune :
+1 2
+1 3
+2 3
+2 4
+1 2
+1 3
+1 4
+2 3
+2 4
+3 4
+2 3
+2 5
+3 5
+C2 after scaning itemset : 
+1 2  :  2
+1 3  :  2
+1 4  :  1
+2 3  :  3
+2 4  :  2
+2 5  :  1
+3 4  :  1
+3 5  :  1
+
+Generating L2 from C2 : 
+1 2  :  2
+1 3  :  2
+2 3  :  3
+2 4  :  2
+Generating C3 after prune :
+1 2 3
+1 2 3
+1 2 4
+2 3 4
+2 3 5
+C3 after scaning itemset : 
+1 2 3  :  2
+1 2 4  :  1
+2 3 4  :  1
+2 3 5  :  1
+
+Generating L3 from C3 : 
+1 2 3  :  2
+Generating C4 after prune :
+1 2 3 4
