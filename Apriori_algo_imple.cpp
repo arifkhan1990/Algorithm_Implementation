@@ -1,3 +1,19 @@
+
+/*----------------------------------------------------------------------------------------------------------------------------------------\\
+|                                                                                                                                          |
+|                                             Name           : ARIF KHAN NIHAR                                                             |
+|                                             E_mail         : arifkhanshubro@gmail.com                                                    |
+|                                             github_link    : https://github.com/arifkhan1990/Algorithm_Implementation                    |
+|                                             Problem        : Implementation of Apriori Algorithm in C++                                  |
+|                                             Date           : 23/07/2017                                                                  |
+|                                             Subject_ref    : Data Mining                                                                 |
+|                                             Execution Time : 0.017s                                                                      |
+|                                                                                                                                          |
+|                                                                                                                                          |
+|                                                                                                                                          |
+|                                             My Blog link :   https://arif778.blogspot.com/                                               |
+-------------------------------------------------------------------------------------------------------------------------------------------*/
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -74,11 +90,11 @@ int main()
 
     int c_count = 1,l_count = 1,combination_num = 1;
 
-    cout <<endl << "Generating C" << c_count << " from data : " << endl;
+    cout <<endl << "Generating C1 from data : " << endl;
     for(it = sort_value.begin();it != sort_value.end();it++)
          cout << it->first << " :  " << it->second << endl;
 
-    cout <<endl << "Generating L" << l_count << " from C" << c_count << " : " << endl;
+    cout <<endl << "Generating L1 from C1 : " << endl;
         for(it= sort_value.begin();it != sort_value.end();it++)
              {
                  if(it->second >= minimum_support)
@@ -96,14 +112,21 @@ int main()
        if(bt){
         cout << "C" << i1-1 << " after scaning itemset : " << endl;
         for(map<string,int>::iterator ito = L_c.begin(); ito != L_c.end(); ito++){
-                cout << ito->first << " " << ito->second << endl;
             string ph = ito->first;
-            //cout << ph << endl;
             for(int ip = 0; ip < ph.size(); ip++)
                  cout << ph[ip] <<" ";
            cout << " :  " << ito->second << endl;
         }
+        cout <<endl << "Generating L" << i1 - 1 << " from C" << i1-1 << " : " << endl;
+        for(map<string,int>::iterator ito = L_c.begin(); ito != L_c.end(); ito++){
+            string ph = ito->first;
+           if(ito->second >= minimum_support){
+             for(int ip = 0; ip < ph.size(); ip++)
+              cout << ph[ip] <<" ";
 
+            cout << " :  " << ito->second << endl;
+           }
+        }
         cout << "Generating C" << i1 << " after prune :" << endl;
         L_c.clear();
        }else{
