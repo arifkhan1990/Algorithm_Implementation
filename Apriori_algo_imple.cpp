@@ -145,7 +145,7 @@ int main()
             int p1,check_v ;
                     p1 = 0;
                     result.clear();
-                for(int l = 0; l < transaction and ar[l] != 0; l++){
+                for(int l = 0; l < maximum_purchase_item and ar[l] != 0; l++){
                         p1++;
                         result.push_back(ar[l]);
                 }
